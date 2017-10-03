@@ -68,26 +68,24 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 const mapboxgl = __webpack_require__(1);
+const BuildMarker = __webpack_require__(3);
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWljaGFlbGRmc2ExNyIsImEiOiJjajhicWw0bWIwMHFuMndvazRkOGY3dGl4In0.wkFBT4V25f4-MNeLQjrpwg';
-
 const map = new mapboxgl.Map({
   container: "map",
-  center: [-74.009, 40.705], // FullStack coordinates
+  center: [-74.009, 40.705], // FullStack NY coordinates; alternatively, use [-87.6354, 41.8885] for Chicago
   zoom: 12, // starting zoom
   style: "mapbox://styles/mapbox/streets-v10" // mapbox has lots of different map styles available.
 });
 
+// const markerDomEl = document.createElement("div");
+// markerDomEl.style.width = "32px";
+// markerDomEl.style.height = "39px";
+// markerDomEl.style.backgroundImage = "url(http://i.imgur.com/WbMOfMl.png)";
+// new mapboxgl.Marker(markerDomEl).setLngLat([-74.009, 40.705]).addTo(map);
 
 
-
-const markerDomEl = document.createElement('div'); //create a new detached DIV
-markerDomEl.style.width = "32px"
-markerDomEl.style.height = "39px"
-markerDomEl.style.backgroundImage = "url(http://i.imgur.com/WbMOfMl.png)"
-
-new mapboxgl.Marker(markerDomEl).setLngLat([-74.009151, 40.705086]).addTo(map);
-
+let coord = new BuildMarker('activities', [-74.009, 40.705])
 
 
 
@@ -583,6 +581,46 @@ try {
 // easier to handle this case. if(!global) { ...}
 
 module.exports = g;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Create a new function that can be used to build new markers for a given type (hotel, restaurant or activity) and coordinates.
+const mapboxgl = __webpack_require__(1);
+
+const iconURLS = {
+
+    hotels: "http://i.imgur.com/WbMOfMl.png",
+    restaurants: "http://i.imgur.com/D9574Cu.png",
+    activities: "http://i.imgur.com/cqR6pUI.png"
+}
+
+
+
+function BuildMarker(markerType, coordinateArray) {
+
+    const markerDomEl = document.createElement('div'); //create a new detached DIV
+    markerDomEl.style.width = "32px";
+    markerDomEl.style.height = "39px";
+    markerDomEl.style.backgroundImage = `url(${iconURLS[markerType]})`;
+    console.log(markerDomEl.style.backgroundImage)
+
+    new mapboxgl.Marker(markerDomEl).setLngLat(coordinateArray).addTo(map);
+}
+// const BuildMarker = (markerType, coordinateArray) => { //Activity, Hotel, Restaurant
+//     console.log('hello')
+//     const markerDomEl = document.createElement('div'); //create a new detached DIV
+//     markerDomEl.style.width = "32px";
+//     markerDomEl.style.height = "39px";
+//     markerDomEl.style.backgroundImage = `url(${iconURLS[markerType]})`;
+
+
+//     new mapboxgl.Marker(markerDomEl).setLngLat(coordinateArray).addTo(map);
+// };
+
+module.exports = BuildMarker;
 
 
 /***/ })

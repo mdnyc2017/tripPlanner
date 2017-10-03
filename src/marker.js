@@ -1,5 +1,5 @@
 // Create a new function that can be used to build new markers for a given type (hotel, restaurant or activity) and coordinates.
-const mapbox = require('mapgox-gl')
+const mapboxgl = require('mapbox-gl');
 
 const iconURLS = {
 
@@ -10,31 +10,25 @@ const iconURLS = {
 
 
 
+function BuildMarker(markerType, coordinateArray) {
 
-const buildMarker = (markerType, coordinateArray) =>{ //Activity, Hotel, Restaurant
-let backgroundImage;
-this.markerType = iconURLS[markerType]; //set markerType as key to iconURLS object
-this.coordinateArray = coordinateArray;
+    const markerDomEl = document.createElement('div'); //create a new detached DIV
+    markerDomEl.style.width = "32px";
+    markerDomEl.style.height = "39px";
+    markerDomEl.style.backgroundImage = `url(${iconURLS[markerType]})`;
+    console.log(markerDomEl.style.backgroundImage)
 
-
-
-// if(markerType === "activity"){
-
-// }
-
-// if(markerType === "hotel"){
-
-// }
-
-
-// if(markerType === "restaurant"){
-
-// }
-
-
+    new mapboxgl.Marker(markerDomEl).setLngLat(coordinateArray).addTo(map);
 }
+// const BuildMarker = (markerType, coordinateArray) => { //Activity, Hotel, Restaurant
+//     console.log('hello')
+//     const markerDomEl = document.createElement('div'); //create a new detached DIV
+//     markerDomEl.style.width = "32px";
+//     markerDomEl.style.height = "39px";
+//     markerDomEl.style.backgroundImage = `url(${iconURLS[markerType]})`;
 
 
+//     new mapboxgl.Marker(markerDomEl).setLngLat(coordinateArray).addTo(map);
+// };
 
-
-module.exports = buildMarker;
+module.exports = BuildMarker;
